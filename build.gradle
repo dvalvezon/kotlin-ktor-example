@@ -1,0 +1,49 @@
+buildscript {
+    ext.ktor_version = "1.1.3"
+}
+
+plugins {
+    id "application"
+    id "java"
+    id "org.jetbrains.kotlin.jvm" version "1.3.21"
+    id "com.github.johnrengelman.shadow" version "4.0.0"
+}
+
+group "com.dvalvezon.kotlin-ktor-example"
+version "0.1.0-SNAPSHOT"
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    compile "io.ktor:ktor-server-core:$ktor_version"
+    compile "io.ktor:ktor-auth-jwt:$ktor_version"
+    compile "io.ktor:ktor-jackson:$ktor_version"
+    compile "io.ktor:ktor-client-core:$ktor_version"
+    compile "io.ktor:ktor-client-apache:$ktor_version"
+    compile "io.ktor:ktor-server-netty:$ktor_version"
+    compile "redis.clients:jedis:3.0.1"
+    compile "org.mindrot:jbcrypt:0.4"
+    compile "ch.qos.logback:logback-classic:1.2.3"
+    testCompile group: "junit", name: "junit", version: "4.12"
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+
+mainClassName = "io.ktor.server.netty.EngineMain"
+
+// Generate a fat JAR and put it in the ./build/libs/ directory
+shadowJar {
+    manifest {
+        attributes "Main-Class": mainClassName
+    }
+}

@@ -1,0 +1,16 @@
+redis:
+  image: redis:5.0.3
+  ports:
+    - "6379:6379"
+
+app:
+  build: .
+  links:
+    - redis:redis
+  ports:
+    - "8080:8080"
+  volumes:
+    - ./:/app
+    - ~/.ivy2:/root/.ivy2
+    - ~/.m2:/root/.m2
+    - ~/.gradle:/root/.gradle
